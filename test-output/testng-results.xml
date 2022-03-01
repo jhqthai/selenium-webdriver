@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2022-03-01T12:04:19 AEDT" name="Default suite" finished-at="2022-03-01T12:04:27 AEDT" duration-ms="8769">
+    <groups>
+    </groups>
+    <test started-at="2022-03-01T12:04:19 AEDT" name="Default test" finished-at="2022-03-01T12:04:27 AEDT" duration-ms="8769">
+      <class name="com.herokuapp.theinternet.NegativeTests">
+        <test-method signature="negativeUsernameTest()[pri:0, instance:com.herokuapp.theinternet.NegativeTests@2e005c4b]" started-at="2022-03-01T12:04:19 AEDT" name="negativeUsernameTest" finished-at="2022-03-01T12:04:27 AEDT" duration-ms="8730" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- negativeUsernameTest -->
+      </class> <!-- com.herokuapp.theinternet.NegativeTests -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
