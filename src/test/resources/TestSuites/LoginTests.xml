@@ -1,8 +1,9 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="NegativeTestsSuite" verbose="1">
+<suite name="LoginTestsSuite" verbose="1">
 
 	<test name="PositiveTests">
+		<parameter name="browser" value="chrome" />
 		<groups>
 			<run>
 				<include name="postiveTests" />
@@ -15,7 +16,9 @@
 	</test>
 
 	<test name="NegativeUsernameTests">
-		<parameter name="username" value="incorrectUsername " />
+		<parameter name="browser" value="chrome" />
+
+		<parameter name="username" value="incorrectUsername" />
 		<parameter name="password" value="SuperSecretPassword!" />
 		<parameter name="expectedMessage" value="Your username is invalid!" />
 
@@ -29,6 +32,8 @@
 	</test>
 
 	<test name="NegativePasswordTests">
+		<parameter name="browser" value="firefox" />
+
 		<parameter name="username" value="tomsmith" />
 		<parameter name="password" value="incorrrectpassword" />
 		<parameter name="expectedMessage" value="Your password is invalid!" />

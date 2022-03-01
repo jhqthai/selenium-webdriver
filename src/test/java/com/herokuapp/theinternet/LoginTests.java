@@ -1,12 +1,18 @@
 package com.herokuapp.theinternet;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -25,8 +31,12 @@ public class LoginTests {
     WebElement password = driver.findElement(By.id("password"));
     password.sendKeys("SuperSecretPassword!");
 
+    // Explicit wait
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    
     // Click login button
     WebElement loginButton = driver.findElement(By.className("radius"));
+    wait.until(ExpectedConditions.elementToBeClickable(loginButton));
     loginButton.click();
 
     // Verifications
@@ -61,7 +71,7 @@ public class LoginTests {
     // Enter correct password
     WebElement passwordElement = driver.findElement(By.id("password"));
     passwordElement.sendKeys(password);
-
+    
     // Press login
     WebElement loginButton = driver.findElement(By.className("radius"));
     loginButton.click();
@@ -76,11 +86,27 @@ public class LoginTests {
 
   }
 
+  @Parameters({ "browser" })
   @BeforeMethod(alwaysRun = true)
-  private void setup() {
+  private void setup(@Optional String browser) {
     // Create driver
-    System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-    driver = new ChromeDriver();
+    switch (browser) {
+    case "chrome": {
+      System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+      driver = new ChromeDriver();
+      break;
+    }
+    case "firefox": {
+      System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+      driver = new FirefoxDriver();
+      break;
+    }
+    default:
+      System.out.println("Do not know how to start " + browser + ", starting Chrome Browser instead.");
+      System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+      driver = new ChromeDriver();
+      break;
+    }
 
     // maximise browser window
 //    driver.manage().window().maximize();
@@ -89,6 +115,12 @@ public class LoginTests {
     String url = "http://the-internet.herokuapp.com/login";
     driver.get(url);
     System.out.println("Page is opened.");
+    
+    // Implicit wait
+//    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    
+    // Explicit wait
+    
   }
 
   @AfterMethod(alwaysRun = true)
