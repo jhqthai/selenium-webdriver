@@ -1,0 +1,92 @@
+package com.herokuapp.theinternet;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class NegativeTests {
+
+  @Parameters({ "username", "password", "expectedMessage" })
+  @Test (priority = 1, groups = { "negativeTests", "smokeTests" })
+  public void negativeLoginTest(String username, String password, String expectedMessage) {
+    System.out.println("Starting negativeLoginTest with " + username + " and " + password);
+
+    // Create driver
+    System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+    WebDriver driver = new ChromeDriver();
+
+    // Maximise window
+    driver.manage().window().maximize();
+
+    // Open test page
+    String url = "http://the-internet.herokuapp.com/login";
+    driver.get(url);
+    System.out.println("Page is opened.");
+
+    // Enter incorrect username
+    WebElement usernameElement = driver.findElement(By.id("username"));
+    usernameElement.sendKeys(username);
+//    username.sendKeys("tomsmith");
+
+
+    // Enter correct password
+    WebElement passwordElement = driver.findElement(By.id("password"));
+    passwordElement.sendKeys(password);
+
+    // Press login
+    WebElement loginButton = driver.findElement(By.className("radius"));
+    loginButton.click();
+
+    // Verification
+    // Invalid login message
+    WebElement invalidMessage = driver.findElement(By.xpath("//div[@id='flash']"));
+    String actualMessage = invalidMessage.getText();
+    Assert.assertTrue(actualMessage.contains(expectedMessage),
+        "Actual does not contain expected message. \nActual Message: " + actualMessage + "\nExpected Message: "
+            + expectedMessage);
+
+    // Close browser
+    driver.quit();
+
+  }
+  
+  /*
+   * @Test (priority = 2, groups = { "negativeTests" }) public void
+   * negativePasswordTest() { System.out.println("Starting negativeUsernameTest");
+   * 
+   * // Create driver System.setProperty("webdriver.chrome.driver",
+   * "src/main/resources/chromedriver.exe"); WebDriver driver = new
+   * ChromeDriver();
+   * 
+   * // Maximise window driver.manage().window().maximize();
+   * 
+   * // Open test page String url = "http://the-internet.herokuapp.com/login";
+   * driver.get(url); System.out.println("Page is opened.");
+   * 
+   * // Enter incorrect username WebElement username =
+   * driver.findElement(By.id("username")); username.sendKeys("tomsmith");
+   * 
+   * 
+   * // Enter correct password WebElement password =
+   * driver.findElement(By.id("password"));
+   * password.sendKeys("incorrectpassword!");
+   * 
+   * // Press login WebElement loginButton =
+   * driver.findElement(By.className("radius")); loginButton.click();
+   * 
+   * // Verification // Invalid login message WebElement invalidMessage =
+   * driver.findElement(By.xpath("//div[@id='flash']")); String expectedMessage =
+   * "Your password is invalid!"; String actualMessage = invalidMessage.getText();
+   * Assert.assertTrue(actualMessage.contains(expectedMessage),
+   * "Actual does not contain expected message. \nActual Message: " +
+   * actualMessage + "\nExpected Message: " + expectedMessage);
+   * 
+   * // Close browser driver.quit();
+   * 
+   * }
+   */
+}
